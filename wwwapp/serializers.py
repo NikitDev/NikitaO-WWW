@@ -6,7 +6,7 @@ from wwwapp.models import Person, Stanowisko
 class PersonModelSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     imie = serializers.CharField(required=True)
-    nazwisko = serializers.CharField()
+    nazwisko = serializers.CharField(allow_null=True)
     plec = serializers.ChoiceField(choices=Person.plci, default=Person.plci.INNE)
     stanowisko = serializers.PrimaryKeyRelatedField(queryset=Stanowisko.objects.all())
 
