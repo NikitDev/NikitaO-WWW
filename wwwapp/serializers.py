@@ -14,8 +14,8 @@ class PersonModelSerializer(serializers.Serializer):
         return Person.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
-        instance.imie = validated_data.get('name', instance.name)
-        instance.nazwisko = validated_data.get('shirt_size', instance.nazwisko)
+        instance.imie = validated_data.get('imie', instance.imie)
+        instance.nazwisko = validated_data.get('nazwisko', instance.nazwisko)
         instance.plec = validated_data.get('plec', instance.plec)
         instance.stanowisko = validated_data.get('stanowisko', instance.stanowisko)
         instance.save()

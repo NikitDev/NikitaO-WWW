@@ -37,9 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'wwwapp.apps.WwwappConfig',
     'debug_toolbar',
     'rest_framework',
+    'rest_framework.authtoken',
+    'wwwapp.apps.WwwappConfig',
 ]
 
 MIDDLEWARE = [

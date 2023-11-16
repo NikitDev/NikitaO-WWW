@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -16,3 +17,4 @@ class Person(models.Model):
     nazwisko = models.CharField(blank=True, max_length=64, null=True)
     plec = models.IntegerField(choices=plci.choices, default=plci.INNE)
     stanowisko = models.ForeignKey(Stanowisko, on_delete=models.CASCADE)
+    wlasciciel = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
