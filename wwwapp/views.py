@@ -1,5 +1,3 @@
-from django.contrib.auth.models import User
-from django.shortcuts import render
 from rest_framework import status
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
@@ -17,9 +15,6 @@ class BearerTokenAuthentication(TokenAuthentication):
 @authentication_classes([BearerTokenAuthentication])
 @permission_classes([IsAuthenticated])
 def person_list(request):
-    """
-    Lista wszystkich obiektów modelu Person.
-    """
     if request.method == 'GET':
         persons = Person.objects.all()
         serializer = PersonModelSerializer(persons, many=True)
@@ -30,12 +25,6 @@ def person_list(request):
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
 def person_detail(request, pk):
-
-    """
-    :param request: obiekt DRF Request
-    :param pk: id obiektu Person
-    :return: Response (with status and/or object/s data)
-    """
     try:
         person = Person.objects.get(pk=pk)
     except Person.DoesNotExist:
@@ -44,9 +33,6 @@ def person_detail(request, pk):
     if person.wlasciciel != request.user:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-    """
-    Zwraca pojedynczy obiekt typu Person.
-    """
     if request.method == 'GET':
         person = Person.objects.get(pk=pk)
         serializer = PersonModelSerializer(person)
@@ -57,12 +43,6 @@ def person_detail(request, pk):
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
 def person_update(request, pk):
-
-    """
-    :param request: obiekt DRF Request
-    :param pk: id obiektu Person
-    :return: Response (with status and/or object/s data)
-    """
     try:
         person = Person.objects.get(pk=pk)
     except Person.DoesNotExist:
@@ -82,12 +62,6 @@ def person_update(request, pk):
 @api_view(['DELETE'])
 @authentication_classes([BearerTokenAuthentication])
 def person_delete(request, pk):
-
-    """
-    :param request: obiekt DRF Request
-    :param pk: id obiektu Person
-    :return: Response (with status and/or object/s data)
-    """
     try:
         person = Person.objects.get(pk=pk)
     except Person.DoesNotExist:
@@ -96,3 +70,18 @@ def person_delete(request, pk):
     if request.method == 'DELETE':
         person.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET'])
+@authentication_classes([BearerTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def persons_stanowisko(request, pk):
+    try:
+        stanowisko = Stanowisko.objects.get(pk=pk)
+    except Stanowisko.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        persons = Person.objects.filter(stanowisko=stanowisko)
+        serializer = PersonModelSerializer(persons, many=True)
+        return Response(serializer.data)
