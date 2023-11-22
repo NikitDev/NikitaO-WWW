@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 class Stanowisko(models.Model):
@@ -16,3 +17,4 @@ class Person(models.Model):
     nazwisko = models.CharField(blank=True, max_length=64, null=True)
     plec = models.IntegerField(choices=plci.choices, default=plci.INNE)
     stanowisko = models.ForeignKey(Stanowisko, on_delete=models.CASCADE)
+    data_dodanie = models.DateField(default=timezone.now())

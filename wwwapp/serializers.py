@@ -1,3 +1,4 @@
+from django.utils import timezone
 from rest_framework import serializers
 
 from wwwapp.models import Person, Stanowisko
@@ -20,6 +21,21 @@ class PersonModelSerializer(serializers.Serializer):
         instance.stanowisko = validated_data.get('stanowisko', instance.stanowisko)
         instance.save()
         return instance
+
+    def validate_imie(self, value):
+        if not value.isalpha():
+            raise serializers.ValidationError(
+                'W imieniu powinny byc tylko znaki alfabetu!',
+            )
+        return value
+
+    def validate_data_dodania(self, data):
+
+        if data > timezone.now().date():
+            raise serializers.ValidationError(
+                'Jesteś z przyszłości? Zła data.',
+            )
+        return data
 
 
 class StanowiskoModelSerializer(serializers.ModelSerializer):
