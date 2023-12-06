@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from rest_framework import status
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
@@ -31,7 +32,6 @@ def person_detail(request, pk):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if person.wlasciciel != request.user:
-        print("XDDDDDDDDDDDDDDDD")
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
     if request.method == 'GET':
@@ -86,3 +86,9 @@ def persons_stanowisko(request, pk):
         persons = Person.objects.filter(stanowisko=stanowisko)
         serializer = PersonModelSerializer(persons, many=True)
         return Response(serializer.data)
+
+
+def test_view(request):
+    if request.method == 'POST':
+        return HttpResponse(status=201)
+    return HttpResponse(status=200)
