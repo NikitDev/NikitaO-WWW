@@ -31,6 +31,7 @@ def person_detail(request, pk):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if person.wlasciciel != request.user:
+        print("XDDDDDDDDDDDDDDDD")
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
     if request.method == 'GET':
