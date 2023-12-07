@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'rest_framework',
     'rest_framework.authtoken',
+    'graphene_django',
     'wwwapp.apps.WwwappConfig',
 ]
 
@@ -132,4 +133,8 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 TESTS = 'wwwapp.tests'
+
+GRAPHENE = {
+    "SCHEMA": "wwwproj.schema.schema"
+}
 
